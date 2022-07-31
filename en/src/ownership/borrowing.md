@@ -5,12 +5,12 @@
 ```rust,editable
 
 fn main() {
-   let x = 5;
-   // Fill the blank
-   let p = __;
-
-   println!("the memory address of x is {:p}", p); // One possible output: 0x16fa3ac84
-}
+    let x = 5;
+    // Fill the blank
+    let p = &x;
+ 
+    println!("the memory address of x is {:p}", p); // One possible output: 0x16fa3ac84
+ }
 ```
 
 2. 🌟
@@ -21,7 +21,7 @@ fn main() {
     let y = &x;
 
     // Modify this line only
-    assert_eq!(5, y);
+    assert_eq!(&5, y);
 
     println!("Success!");
 }
@@ -34,7 +34,7 @@ fn main() {
 fn main() {
     let mut s = String::from("hello, ");
 
-    borrow_object(s);
+    borrow_object(&s);
 
     println!("Success!");
 }
@@ -49,7 +49,7 @@ fn borrow_object(s: &String) {}
 fn main() {
     let mut s = String::from("hello, ");
 
-    push_str(s);
+    push_str(&mut s);
 
     println!("Success!");
 }
@@ -66,7 +66,7 @@ fn main() {
     let mut s = String::from("hello, ");
 
     // Fill the blank to make it work
-    let p = __;
+    let mut p = s.clone();
     
     p.push_str("world");
 
@@ -85,7 +85,7 @@ fn main() {
 
     let r1 = &c;
     // Fill the blank，dont change other code
-    let __ r2 = c;
+    let ref r2 = c;
 
     assert_eq!(*r1, *r2);
     
@@ -111,9 +111,8 @@ fn main() {
     let mut s = String::from("hello");
 
     let r1 = &mut s;
-    let r2 = &mut s;
 
-    println!("{}, {}", r1, r2);
+    println!("{}", r1);
 
     println!("Success!");
 }
@@ -125,7 +124,7 @@ fn main() {
 
 fn main() {
     // Fix error by modifying this line
-    let  s = String::from("hello, ");
+    let mut  s = String::from("hello, ");
 
     borrow_object(&mut s);
 
@@ -142,14 +141,14 @@ fn borrow_object(s: &mut String) {}
 fn main() {
     let mut s = String::from("hello, ");
 
-    borrow_object(&s);
+    borrow_object(&mut s);
     
     s.push_str("world");
 
     println!("Success!");
 }
 
-fn borrow_object(s: &String) {}
+fn borrow_object(s: &mut String) {}
 ```
 
 ### NLL
@@ -162,8 +161,8 @@ fn main() {
 
     let r1 = &mut s;
     r1.push_str("world");
-    let r2 = &mut s;
-    r2.push_str("!");
+    // let r2 = &mut s;
+    // r2.push_str("!");
     
     println!("{}",r1);
 }
@@ -177,6 +176,8 @@ fn main() {
 
     let r1 = &mut s;
     let r2 = &mut s;
+
+    println!("r1::>>{}, r2::>>{}", r1, r2);
 
     // Add one line below to make a compiler error: cannot borrow `s` as mutable more than once at a time
     // You can't use r1 and r2 at the same time
