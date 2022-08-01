@@ -17,21 +17,21 @@ fn main() {
     let mut scores = HashMap::new();
     scores.insert("Sunface", 98);
     scores.insert("Daniel", 95);
-    scores.insert("Ashley", 69.0);
-    scores.insert("Katie", "58");
+    scores.insert("Ashley", 69.0 as i32);
+    scores.insert("Katie", "58".parse().unwrap());
 
     // Get returns an Option<&V>
     let score = scores.get("Sunface");
-    assert_eq!(score, Some(98));
+    assert_eq!(score, Some(&98));
 
     if scores.contains_key("Daniel") {
         // Indexing returns a value V
         let score = scores["Daniel"];
-        assert_eq!(score, __);
+        assert_eq!(score, 95);
         scores.remove("Daniel");
     }
 
-    assert_eq!(scores.len(), __);
+    assert_eq!(scores.len(), 3);
 
     for (name, score) in scores {
         println!("The score of {} is {}", name, score);
@@ -43,6 +43,8 @@ fn main() {
 ```rust,editable
 
 use std::collections::HashMap;
+use std::array::IntoIter;
+
 fn main() {
     let teams = [
         ("Chinese Team", 100),
@@ -54,10 +56,9 @@ fn main() {
     for team in &teams {
         teams_map1.insert(team.0, team.1);
     }
-
     // IMPLEMENT team_map2 in two ways
     // Tips: one of the approaches is to use `collect` method
-    let teams_map2...
+    let teams_map2 : HashMap<_,_> = IntoIterator::into_iter(teams).collect();
 
     assert_eq!(teams_map1, teams_map2);
 
@@ -78,19 +79,19 @@ fn main() {
     // Insert a key only if it doesn't already exist
     player_stats.entry("health").or_insert(100);
 
-    assert_eq!(player_stats["health"], __);
+    assert_eq!(player_stats["health"], 100);
 
     // Insert a key using a function that provides a new value only if it
     // doesn't already exist
     player_stats.entry("health").or_insert_with(random_stat_buff);
-    assert_eq!(player_stats["health"], __);
+    assert_eq!(player_stats["health"], 100);
 
     // Ensures a value is in the entry by inserting the default if empty, and returns
     // a mutable reference to the value in the entry.
     let health = player_stats.entry("health").or_insert(50);
-    assert_eq!(health, __);
+    assert_eq!(health, &100);
     *health -= 50;
-    assert_eq!(*health, __);
+    assert_eq!(*health, 50);
 
     println!("Success!");
 }
@@ -119,7 +120,7 @@ All collection classes implement `Eq` and `Hash` if their contained type also re
 // FIX the errors
 // Tips: `derive` is usually a good way to implement some common used traits
 use std::collections::HashMap;
-
+#[derive(Debug, Hash, Eq, PartialEq)]
 struct Viking {
     name: String,
     country: String,
@@ -194,7 +195,7 @@ fn main() {
   m1.insert(v1, v1);
   println!("v1 is still usable after inserting to hashmap : {}", v1);
 
-  let v2 = "hello".to_string();
+  let v2 = "hello";
   let mut m2 = HashMap::new();
   // Ownership moved here
   m2.insert(v2, v1);

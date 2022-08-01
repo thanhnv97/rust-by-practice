@@ -1,10 +1,15 @@
 fn main() {
-    let s = sum(1 , 2);
-    assert_eq!(s, 3);
+    let mut s: String = "hello, ";
+    s.push_str("world");
+    s.push("!");
+
+    move_ownership(s);
+
+    assert_eq!(s, "hello, world!");
 
     println!("Success!");
 }
 
-fn sum(x: i32, y: i32) -> i32 {
-    x + y
+fn move_ownership(s: String) {
+    println!("ownership of \"{}\" is moved here!", s)
 }
