@@ -8,7 +8,6 @@ fn main() {
     let y = {
         let x_squared = x * x;
         let x_cube = x_squared * x;
-
         // This expression will be assigned to `y`
         x_cube + x_squared + x
     };
@@ -29,14 +28,16 @@ fn main() {
 ```rust,editable
 // Make it work with two ways
 fn main() {
-   let v = {
-       let mut x = 1;
-       x += 2
-   };
-
-   assert_eq!(v, 3);
-
-   println!("Success!");
+   fn main() {
+    let v = {
+        let mut x = 1;
+        x += 2;
+        x
+    };
+    assert_eq!(v, 3);
+ 
+    println!("Success!");
+ }
 }
 ```
 
@@ -44,12 +45,15 @@ fn main() {
 ```rust,editable
 
 fn main() {
-   let v = (let x = 3);
-
-   assert!(v == 3);
-
-   println!("Success!");
-}
+    let v = {
+        let x = 3;
+        x
+    };
+ 
+    assert!(v == 3);
+ 
+    println!("Success!");
+ }
 ```
 
 3. 🌟
@@ -63,7 +67,7 @@ fn main() {
 }
 
 fn sum(x: i32, y: i32) -> i32 {
-    x + y;
+    x + y
 }
 ```
 

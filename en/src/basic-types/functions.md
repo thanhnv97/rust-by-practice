@@ -12,8 +12,8 @@ fn main() {
     println!("Success!");
 }
 
-fn sum(x, y: i32) {
-    x + y;
+fn sum(x: i32, y: i32) -> i32 {
+    x + y
 }
 ```
 
@@ -21,13 +21,13 @@ fn sum(x, y: i32) {
 2. 🌟
 ```rust,editable
 fn main() {
-   print();
+    print();
 }
 
 // Replace i32 with another type
-fn print() -> i32 {
-   println!("Success!");
-}
+fn print(){
+    println!("Success!");
+}  
 ```
 
 
@@ -36,6 +36,7 @@ fn print() -> i32 {
 ```rust,editable
 // Solve it in two ways
 // DON'T let `println!` works
+use std::process::exit;
 fn main() {
     never_return();
 
@@ -44,7 +45,8 @@ fn main() {
 
 fn never_return() -> ! {
     // Implement this function, don't modify the fn signatures
-    
+    // loop { }
+    exit(3);
 }
 ```
 
@@ -54,27 +56,25 @@ Diverging functions never return to the caller, so they may be used in places wh
 4. 🌟🌟
 ```rust,editable
 
+use std::process::exit;
 fn main() {
+    get_option(2);
     println!("Success!");
 }
 
 fn get_option(tp: u8) -> Option<i32> {
     match tp {
         1 => {
-            // TODO
+            return Some(1);
         }
-        _ => {
-            // TODO
-        }
+        _ => never_return_fn()
     };
-    
-    // Rather than returning a None, we use a diverging function instead
-    never_return_fn()
 }
 
 // IMPLEMENT this function in THREE ways
 fn never_return_fn() -> ! {
-    
+    // exit(3);
+    panic!("Err")
 }
 ```
 
@@ -83,7 +83,7 @@ fn never_return_fn() -> ! {
 
 fn main() {
     // FILL in the blank
-    let b = __;
+    let b = false;
 
     let _v = match b {
         true => 1,
